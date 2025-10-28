@@ -1,0 +1,40 @@
+Sample Study Notes - Mathematics
+
+Chapter 1: Calculus Fundamentals
+===============================
+
+1.1 Limits and Continuity
+- Definition of limit: lim(x→a) f(x) = L
+- Properties of limits
+- Continuity at a point
+- Types of discontinuities
+
+1.2 Derivatives
+- Definition of derivative
+- Rules of differentiation
+- Chain rule
+- Product rule
+- Quotient rule
+
+1.3 Applications of Derivatives
+- Tangent lines
+- Optimization problems
+- Related rates
+- Curve sketching
+
+Chapter 2: Integration
+=====================
+
+2.1 Antiderivatives
+- Definition of antiderivative
+- Basic integration rules
+- Integration by substitution
+- Integration by parts
+
+2.2 Definite Integrals
+- Fundamental Theorem of Calculus
+- Properties of definite integrals
+- Applications to area and volume
+
+This is a sample file to demonstrate the Student Exchange Portal functionality.
+Students can upload similar study materials to help each other with exam preparation.

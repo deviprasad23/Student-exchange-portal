@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exchange Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Student Exchange Portal</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#upload" class="nav-link">Upload</a>
+                    <a href="#search" class="nav-link">Search</a>
+                    <a href="#browse" class="nav-link">Browse</a>
+                    <a href="#mocktests" class="nav-link">Mock Tests</a>
+                    <a href="#doubts" class="nav-link">Clarify Doubts</a>
+                    <a href="#profile" class="nav-link" id="navProfile" style="display:none;">Profile</a>
+                    <a href="#login" class="nav-link" id="navLogin">Login</a>
+                </div>
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Login Section -->
+        <section id="login" class="section" style="display:none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Student Login</h2>
+                    <p class="section-description">Login with your hall ticket, password, and university name</p>
+                </div>
+                <div class="upload-container">
+                    <form id="loginForm" class="upload-form" style="max-width:520px;margin:auto;">
+                        <div class="form-group">
+                            <label for="loginName">Full Name *</label>
+                            <input type="text" id="loginName" name="name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginHallTicket">Hall Ticket Number *</label>
+                            <input type="text" id="loginHallTicket" name="hall_ticket" placeholder="e.g., 21XX1A05A0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginUniversity">University Name *</label>
+                            <input type="text" id="loginUniversity" name="university" placeholder="Your University" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password *</label>
+                            <input type="password" id="loginPassword" name="password" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Share Knowledge, Excel Together</h1>
+                    <p class="hero-description">
+                        Upload question papers and find study notes to help you succeed in your exams. 
+                        Join thousands of students sharing educational resources.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalFiles">0</span>
+                            <span class="stat-label">Files Shared</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="totalSubjects">0</span>
+                            <span class="stat-label">Subjects</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="totalStudents">1000+</span>
+                            <span class="stat-label">Students</span>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="showSection('upload')">
+                            <i class="fas fa-upload"></i>
+                            Upload Files
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('search')">
+                            <i class="fas fa-search"></i>
+                            Search Notes
+                        </button>
+                        <button class="btn btn-secondary" onclick="goToMockTestsWithPrompt()">
+                            <i class="fas fa-clipboard-check"></i>
+                            Take Mock Tests
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('doubts')">
+                            <i class="fas fa-question-circle"></i>
+                            Ask Questions
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-cards">
+                        <div class="card card-1">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Question Papers</span>
+                        </div>
+                        <div class="card card-2">
+                            <i class="fas fa-book"></i>
+                            <span>Study Notes</span>
+                        </div>
+                        <div class="card card-3">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Exam Prep</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section id="upload" class="section upload-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Upload Your Files</h2>
+                    <p class="section-description">Share question papers, notes, and study materials with fellow students</p>
+                </div>
+                
+                <div class="upload-container">
+                    <form id="uploadForm" class="upload-form">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <h3>Drag & Drop Files Here</h3>
+                                <p>or <span class="upload-link">browse files</span></p>
+                                <p class="upload-info">Supports PDF, DOC, DOCX, TXT, JPG, PNG (Max 10MB)</p>
+                            </div>
+                            <input type="file" id="fileInput" name="file" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" hidden>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select Subject</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="semester">Semester</label>
+                                <select id="semester" name="semester">
+                                    <option value="">Select Semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="year">Year</label>
+                                <input type="text" id="year" name="year" placeholder="e.g., 2023, 2024">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" placeholder="Brief description of the file content..." rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-upload">
+                            <i class="fas fa-upload"></i>
+                            Upload File
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section id="search" class="section search-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Search Study Materials</h2>
+                    <p class="section-description">Find question papers, notes, and study resources</p>
+                </div>
+                
+                <div class="search-container">
+                    <form id="searchForm" class="search-form">
+                        <div class="search-bar">
+                            <input type="text" id="searchInput" placeholder="Search for files, subjects, or topics..." autocomplete="off">
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quick-actions" style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+                            <button type="button" class="btn btn-outline" onclick="promptAndSearch('question-paper')">
+                                <i class="fas fa-file-pdf"></i>
+                                Question Papers
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="promptAndSearch('exam-prep')">
+                                <i class="fas fa-chart-line"></i>
+                                Exam Preparation
+                            </button>
+                        </div>
+
+                        <div class="search-filters">
+                            <div class="filter-group">
+                                <label for="filterSubject">Subject</label>
+                                <select id="filterSubject">
+                                    <option value="">All Subjects</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterSemester">Semester</label>
+                                <select id="filterSemester">
+                                    <option value="">All Semesters</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterType">File Type</label>
+                                <select id="filterType">
+                                    <option value="">All Types</option>
+                                    <option value=".pdf">PDF</option>
+                                    <option value=".doc">DOC</option>
+                                    <option value=".docx">DOCX</option>
+                                    <option value=".txt">TXT</option>
+                                    <option value=".jpg">JPG</option>
+                                    <option value=".png">PNG</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" class="btn btn-outline" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                                Clear Filters
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="search-results" id="searchResults">
+                        <div class="results-header">
+                            <h3>Search Results</h3>
+                            <span class="results-count" id="resultsCount">0 results</span>
+                        </div>
+                        <div class="results-grid" id="resultsGrid">
+                            <!-- Search results will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Browse Section -->
+        <section id="browse" class="section browse-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Browse All Files</h2>
+                    <p class="section-description">Explore all available study materials</p>
+                </div>
+                
+                <div class="browse-container">
+                    <div class="browse-filters">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All Files</button>
+                            <button class="filter-tab" data-filter="recent">Recent</button>
+                            <button class="filter-tab" data-filter="popular">Popular</button>
+                        </div>
+                    </div>
+                    
+                    <div class="files-grid" id="filesGrid">
+                        <!-- Files will be populated here -->
+                    </div>
+                    
+                    <div class="load-more">
+                        <button class="btn btn-outline" id="loadMoreBtn">
+                            <i class="fas fa-plus"></i>
+                            Load More Files
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mock Tests Section -->
+        <section id="mocktests" class="section mocktests-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Mock Tests</h2>
+                    <p class="section-description">Practice with mock tests and assess your knowledge</p>
+                </div>
+                
+                <div class="mocktests-container">
+                    <div class="mocktests-filters">
+                        <div class="filter-group">
+                            <label for="testSubject">Subject</label>
+                            <select id="testSubject">
+                                <option value="">All Subjects</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="testSemester">Semester</label>
+                            <select id="testSemester">
+                                <option value="">All Semesters</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-outline" onclick="loadMockTests()">
+                            <i class="fas fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="tests-grid" id="testsGrid">
+                        <!-- Mock tests will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section" style="display:none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Profile</h2>
+                    <p class="section-description">Your student details</p>
+                </div>
+                <div class="browse-container" style="max-width:720px;margin:auto;">
+                    <div class="file-card">
+                        <div class="file-header">
+                            <div class="file-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="file-info">
+                                <h4 id="profileName">-</h4>
+                                <div class="file-meta" id="profileUniversity">-</div>
+                            </div>
+                        </div>
+                        <div class="file-details">
+                            <p><strong>Hall Ticket:</strong> <span id="profileHallTicket">-</span></p>
+                            <p><strong>University:</strong> <span id="profileUniversityDetail">-</span></p>
+                        </div>
+                        <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
+                            <button class="btn btn-secondary" onclick="showSection('upload')">
+                                <i class="fas fa-upload"></i>
+                                Go to Uploads
+                            </button>
+                            <button class="btn btn-outline" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Doubt Clarification Section -->
+        <section id="doubts" class="section doubts-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Clarify Your Doubts</h2>
+                    <p class="section-description">Ask questions and get help from fellow students</p>
+                </div>
+                
+                <div class="doubts-container">
+                    <div class="doubts-actions">
+                        <button class="btn btn-primary" onclick="showAskDoubtForm()">
+                            <i class="fas fa-plus"></i>
+                            Ask a Question
+                        </button>
+                        <div class="doubts-filters">
+                            <div class="filter-group">
+                                <label for="doubtSemester">Semester</label>
+                                <select id="doubtSemester">
+                                    <option value="">All Semesters</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="doubtSubject">Subject</label>
+                                <select id="doubtSubject">
+                                    <option value="">All Subjects</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="doubtStatus">Status</label>
+                                <select id="doubtStatus">
+                                    <option value="">All Status</option>
+                                    <option value="open">Open</option>
+                                    <option value="resolved">Resolved</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="doubts-list" id="doubtsList">
+                        <!-- Doubts will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- File Preview Modal -->
+    <div id="fileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">File Details</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- File details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Close</button>
+                <button class="btn btn-primary" id="downloadBtn">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Mock Test Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content test-modal-content">
+            <div class="modal-header">
+                <h3 id="testModalTitle">Mock Test</h3>
+                <span class="modal-close" onclick="closeTestModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="testModalBody">
+                <!-- Test content will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeTestModal()">Close</button>
+                <button class="btn btn-primary" id="startTestBtn" onclick="startTest()">
+                    <i class="fas fa-play"></i>
+                    Start Test
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Taking Modal -->
+    <div id="testTakingModal" class="modal">
+        <div class="modal-content test-taking-modal">
+            <div class="modal-header">
+                <h3 id="testTakingTitle">Taking Test</h3>
+                <div class="test-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="testTimer">60:00</span>
+                </div>
+            </div>
+            <div class="modal-body" id="testTakingBody">
+                <!-- Test questions will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="exitTestBtn" onclick="exitTest()">Exit</button>
+                <div style="flex:1"></div>
+                <button class="btn btn-outline" id="prevQuestionBtn" onclick="prevQuestion()">
+                    <i class="fas fa-arrow-left"></i>
+                    Previous
+                </button>
+                <button class="btn btn-outline" id="nextQuestionBtn" onclick="nextQuestion()">
+                    Next
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="btn btn-primary" id="submitTestBtn" onclick="submitTest()">
+                    <i class="fas fa-check"></i>
+                    Submit Test
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ask Doubt Modal -->
+    <div id="askDoubtModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ask a Question</h3>
+                <span class="modal-close" onclick="closeAskDoubtModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="askDoubtForm">
+                    <div class="form-group">
+                        <label for="doubtTitle">Question Title *</label>
+                        <input type="text" id="doubtTitle" name="title" placeholder="Brief title for your question" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doubtDescription">Question Description *</label>
+                        <textarea id="doubtDescription" name="description" placeholder="Describe your question in detail..." rows="4" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="doubtFormSemester">Semester</label>
+                            <select id="doubtFormSemester" name="semester">
+                                <option value="">Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="doubtFormSubject">Subject *</label>
+                            <select id="doubtFormSubject" name="subject" required>
+                                <option value="">Select Subject</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentName">Your Name *</label>
+                            <input type="text" id="studentName" name="student_name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentEmail">Email (Optional)</label>
+                            <input type="email" id="studentEmail" name="student_email" placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeAskDoubtModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitDoubt()">
+                    <i class="fas fa-paper-plane"></i>
+                    Post Question
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doubt Details Modal -->
+    <div id="doubtModal" class="modal">
+        <div class="modal-content doubt-modal-content">
+            <div class="modal-header">
+                <h3 id="doubtModalTitle">Question Details</h3>
+                <span class="modal-close" onclick="closeDoubtModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="doubtModalBody">
+                <!-- Doubt details will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeDoubtModal()">Close</button>
+                <button class="btn btn-primary" onclick="showResponseForm()">
+                    <i class="fas fa-reply"></i>
+                    Add Response
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Response Form Modal -->
+    <div id="responseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Response</h3>
+                <span class="modal-close" onclick="closeResponseModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="responseForm">
+                    <div class="form-group">
+                        <label for="responseText">Your Response *</label>
+                        <textarea id="responseText" name="response_text" placeholder="Provide your answer or solution..." rows="4" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="responderName">Your Name *</label>
+                            <input type="text" id="responderName" name="responder_name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="responderEmail">Email (Optional)</label>
+                            <input type="email" id="responderEmail" name="responder_email" placeholder="your.email@example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isSolution" name="is_solution">
+                            <span class="checkmark"></span>
+                            Mark as solution
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeResponseModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitResponse()">
+                    <i class="fas fa-paper-plane"></i>
+                    Post Response
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="subjects.js"></script>
+    <script src="script.js"></script>
+    <script src="add-subjects.js"></script>
+</body>
+</html>
